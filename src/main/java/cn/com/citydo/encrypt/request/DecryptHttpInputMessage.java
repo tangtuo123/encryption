@@ -1,6 +1,6 @@
 package cn.com.citydo.encrypt.request;
 
-import cn.com.citydo.encrypt.utils.RSAUtils;
+import cn.com.citydo.encrypt.utils.AESUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,10 +31,7 @@ public class DecryptHttpInputMessage implements HttpInputMessage {
         return headers;
     }
 
-    public DecryptHttpInputMessage(HttpInputMessage inputMessage, String privateKey, String charset) throws Exception {
-        if (StringUtils.isBlank(privateKey)) {
-            throw new RuntimeException("私钥不能为空");
-        }
+    public DecryptHttpInputMessage(HttpInputMessage inputMessage, String charset) throws Exception {
         //获取请求头内容
         this.headers = inputMessage.getHeaders();
         String bodyStr = IOUtils.toString(inputMessage.getBody(), charset);
@@ -44,7 +41,7 @@ public class DecryptHttpInputMessage implements HttpInputMessage {
         }
         String encryptStr = map.get(PARAMETER_NAME);
         //直接对内容进行解密
-        String decryptBody = RSAUtils.decryptByPrivateKey(privateKey,encryptStr);
+        String decryptBody = AESUtil.decrypt(encryptStr);
         //数据写回
         this.body = IOUtils.toInputStream(decryptBody, charset);
     }

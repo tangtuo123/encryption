@@ -21,9 +21,6 @@ import java.util.Objects;
 @RestControllerAdvice(annotations = RestController.class)
 public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
-    @Value("${encrypt.rsaPrivateKey}")
-    private String privateKey;
-
     @Override
     public boolean supports(MethodParameter methodParameter, Type type, Class<? extends HttpMessageConverter<?>> aClass) {
         // 对加了@Secret注解并且decrypt=true的方法请求数据进行解密处理
@@ -33,7 +30,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
     @Override
     public HttpInputMessage beforeBodyRead(HttpInputMessage httpInputMessage, MethodParameter methodParameter, Type type, Class<? extends HttpMessageConverter<?>> aClass) {
         try {
-            return new DecryptHttpInputMessage(httpInputMessage, privateKey, "UTF-8");
+            return new DecryptHttpInputMessage(httpInputMessage, "UTF-8");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
