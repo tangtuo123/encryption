@@ -1,11 +1,15 @@
 package cn.com.citydo.encrypt.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA
@@ -154,12 +158,19 @@ public class AESUtil {
     }
 
 
-    public static void main(String[] args) {
-        String s = "1122334455667788";
-        String encrypt = encrypt("加密数据");
+    public static void main(String[] args) throws JsonProcessingException {
+        HashMap<String,Object> hashmap = new HashMap<>();
+        hashmap.put("id",null);
+        hashmap.put("name",null);
+        hashmap.put("contry","china");
+        hashmap.put("address","hahahahah");
+        System.out.println("fastjson test");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(hashmap);
+        System.out.println(json);
+        String encrypt = encrypt(json);
+        String decrypt = decrypt(encrypt);
         System.out.println(encrypt);
-        System.out.println(decrypt(encrypt));
-        System.out.println(decrypt("X8CZiqJKm2OhOndjVrJkihjlaskQ05DJOCOXHl7hN+Y=","1122334455667788"));
-
+        System.out.println(decrypt);
     }
 }

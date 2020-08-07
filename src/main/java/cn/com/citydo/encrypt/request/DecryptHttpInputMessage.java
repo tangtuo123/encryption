@@ -2,6 +2,7 @@ package cn.com.citydo.encrypt.request;
 
 import cn.com.citydo.encrypt.utils.AESUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,8 @@ public class DecryptHttpInputMessage implements HttpInputMessage {
         //获取请求头内容
         this.headers = inputMessage.getHeaders();
         String bodyStr = IOUtils.toString(inputMessage.getBody(), charset);
-        Map<String, String> map = JSONObject.parseObject(bodyStr, Map.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = objectMapper.readValue(bodyStr, Map.class);
         if (null == map || StringUtils.isBlank(map.get(PARAMETER_NAME))) {
             throw new RuntimeException("请求参数不能为空");
         }
