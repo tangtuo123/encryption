@@ -1,15 +1,13 @@
 package cn.com.citydo.encrypt.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA
@@ -31,12 +29,10 @@ public class AESUtil {
     private static final String AES_PERSON_KEY_SECURITY_KEY = "pisnyMyZYXuCNcRd";
 
     /**
-     * 加密
+     * 加密4874923827822389
      *
-     * @param str
-     *            需要加密的字符串
-     * @param key
-     *            密钥
+     * @param str 需要加密的字符串
+     * @param key 密钥
      * @return
      * @throws Exception
      */
@@ -111,16 +107,17 @@ public class AESUtil {
      * @throws Exception
      */
     public static String encrypt(String str) {
-        return encrypt(str,AES_DATA_SECURITY_KEY);
+        return encrypt(str, AES_DATA_SECURITY_KEY);
     }
 
     /**
      * 解密
+     *
      * @param str 需要解密的字符串
      * @return
      */
     public static String decrypt(String str) {
-        return decrypt(str,AES_DATA_SECURITY_KEY);
+        return decrypt(str, AES_DATA_SECURITY_KEY);
     }
 
     /**
@@ -157,20 +154,10 @@ public class AESUtil {
         return AESUtil.decrypt(personKey, AES_PERSON_KEY_SECURITY_KEY);
     }
 
-
-    public static void main(String[] args) throws JsonProcessingException {
-        HashMap<String,Object> hashmap = new HashMap<>();
-        hashmap.put("id",null);
-        hashmap.put("name",null);
-        hashmap.put("contry","china");
-        hashmap.put("address","hahahahah");
-        System.out.println("fastjson test");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(hashmap);
-        System.out.println(json);
-        String encrypt = encrypt(json);
-        String decrypt = decrypt(encrypt);
-        System.out.println(encrypt);
-        System.out.println(decrypt);
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("1");
+        String s = JsonUtil.object2String(list);
+        System.out.println(s);
     }
 }
